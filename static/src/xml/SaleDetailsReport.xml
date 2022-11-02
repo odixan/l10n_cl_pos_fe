@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="SaleDetailsReportDte" t-inherit="point_of_sale.SaleDetailsReport" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('orderlines')]" position="before">
+            <div class="pos-receipt-contact">
+                <strong>
+                    <t t-if="!receipt.to_invoice and receipt.to_ticket">
+                        Boleta Electrónica
+                        <br />
+                        N°
+                        <t t-esc="receipt.l10n_latam_document_number" />
+                        <br />
+                    </t>
+                </strong>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="after">
+            <div class="pos-receipt-left-align" style="font-size:14px;">
+                <t t-esc="receipt.company.name" />
+                <br />
+                <strong>
+                    R.U.T.:
+                    <t t-esc="receipt.company.vat" />
+                    <br />
+                </strong>
+                <strong>Giro: </strong>
+                <t t-esc="receipt.company.l10n_cl_activity_description" />
+                <br />
+                <strong>Dirección: </strong>
+                <t t-if="receipt.company.street" t-esc="receipt.company.street" />
+                <br />
+                <strong>Telefono: </strong>
+                <t t-if="receipt.company.phone" t-esc="receipt.company.phone" />
+                <br />
+                <strong>Sucursal: </strong>
+                <t t-if="receipt.config_id" t-esc="receipt.config_id.name" />
+                <br />
+                <strong>Direccion Sucursal: </strong>
+                <t t-if="receipt.company.street2" t-esc="receipt.company.street2" />
+                <br />
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="after">
+            <div>
+                <div class="col-12" style="align:center; margin-bottom: 10px;">
+                    <div>
+                        <img t-att-src="pos.l10n_cl_sii_barcode" style="width:100%" />
+                    </div>
+                    <p style="text-align:center; font-size:10px;">
+                        Timbre Electrónico SII
+                        <br />
+                        RES. Nro.
+                        <t t-esc='pos.company_id.l10n_cl_dte_resolution_number' />
+                        del año
+                        <t t-esc='pos.company_id.l10n_cl_dte_resolution_date.year' />
+                        <br />
+                    </p>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>

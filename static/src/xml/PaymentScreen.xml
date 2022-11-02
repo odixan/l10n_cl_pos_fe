@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('payment-controls')]" position="inside">
+            <div t-if="env.pos.config.module_ticket" class="button"
+                t-att-class="{ highlight: currentOrder.is_to_ticket() }"
+                t-on-click="toggleIsToTicket">
+                <i class="fa fa-file-text-o" /> Boleta
+            </div>
+            
+        </xpath>
+        <xpath expr="//div[hasclass('right-content')]/t[@t-if='!env.isMobile']" position="after">
+            <div style="border-bottom:1px dashed gainsboro; padding: 20px; font-size: 14pt;">
+<!--                <t t-esc="get_type_document()"/> No. <strong>[<t t-esc="get_caf()"/>]</strong> Restan <strong><span t-att-class="(currentOrder.pos.pos_session.percent_caf &gt; 50.00) ? 'info-caf' : (currentOrder.pos.pos_session.percent_caf &gt; 20.00 &amp;&amp; currentOrder.pos.pos_session.percent_caf &lt; 50.00) ? 'warning-caf' : 'alert-caf' ">[<t t-esc="get_remaining_caf()"/>]</span></strong>-->
+                <t t-esc="get_type_document()"/> No. <strong>[<t t-esc="get_caf()"/>]</strong>
+            </div>
+        </xpath>
+    </t>
+</templates>

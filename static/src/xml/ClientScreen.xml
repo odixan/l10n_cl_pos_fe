@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ClientListScreen" t-inherit="point_of_sale.ClientListScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//table[hasclass('client-list')]" position="replace">
+             <table class="client-list">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>RUT</th>
+                        <th>Giro</th>
+                        <th t-if="!env.isMobile">Dirección</th>
+                        <th t-if="!env.isMobile">Telefono</th>
+                        <th t-if="env.isMobile">ZIP</th>
+                        <th>Email DTE</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody class="client-list-contents">
+                    <t t-foreach="clients" t-as="partner" t-key="partner.id">
+                        <ClientLine partner="partner"
+                                    selectedClient="state.selectedClient"
+                                    detailIsShown="state.detailIsShown"
+                                    t-on-click-client="clickClient" />
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+    </t>
+
+    <t t-name="ClientLine" t-inherit="point_of_sale.ClientLine" t-inherit-mode="extension" owl="1">
+        <xpath expr="//td[@t-if='!env.isMobile']" position="before">
+            <td>
+                <t t-esc="props.partner.vat or ''" />
+                <span t-if="highlight"><br/></span>
+            </td>
+            <td>
+                <t t-esc="props.partner.l10n_cl_activity_description or ''" />
+                <span t-if="highlight"><br/></span>
+            </td>
+        </xpath>
+        <xpath expr="//td[@t-if='env.isMobile']" position="after">
+            <td>
+                <t t-esc="props.partner.l10n_cl_dte_email or ''" />
+                <span t-if="highlight"><br/></span>
+            </td>
+        </xpath>
+    </t>
+
+    <t t-name="ClientDetailsEdit" t-inherit="point_of_sale.ClientDetailsEdit" t-inherit-mode="extension" owl="1">
+        <xpath expr="//input[@name='barcode']/.." position="replace"/>
+        <xpath expr="//select[@name='state_id']/../span[hasclass('label')]" position="replace">
+            <span class="label">Región</span>
+        </xpath>
+        
+        <xpath  expr="//div[hasclass('client-details-right')]" position="inside">
+            <div class="client-detail">
+                <span class="label">DTE Email</span>
+                <input class="detail" name="l10n_cl_dte_email" type="email"
+                       t-on-change="captureChange" t-att-value="props.partner.l10n_cl_dte_email || ''" />
+            </div>
+            <div class="client-detail">
+                <span class="label">Giro</span>
+                <input class="detail" name="l10n_cl_activity_description"
+                       t-on-change="captureChange" t-att-value="props.partner.l10n_cl_activity_description || ''" />
+            </div>
+            <div class="client-detail">
+                <span class="label">Tipo de Contribuyente</span>
+                <select class="detail" name="l10n_cl_sii_taxpayer_type" t-on-change="captureChange">
+                    <option value="">None</option>
+                    <option t-att-value="1"
+                            t-att-selected="props.partner.l10n_cl_sii_taxpayer_type ? ((props.partner.l10n_cl_sii_taxpayer_type == '1') ? true : undefined) : undefined">
+                        IVA afecto 1a categoría
+                    </option>
+                    <option t-att-value="2"
+                            t-att-selected="props.partner.l10n_cl_sii_taxpayer_type ? ((props.partner.l10n_cl_sii_taxpayer_type == '2') ? true : undefined) : undefined">
+                        Emisor de Boleta 2a categoría
+                    </option>
+                    <option t-att-value="3"
+                            t-att-selected="props.partner.l10n_cl_sii_taxpayer_type ? ((props.partner.l10n_cl_sii_taxpayer_type == '3') ? true : undefined) : undefined" >
+                        Consumidor Final
+                    </option>
+                    <option t-att-value="4"
+                            t-att-selected="props.partner.l10n_cl_sii_taxpayer_type ? ((props.partner.l10n_cl_sii_taxpayer_type == '4') ? true : undefined) : undefined">
+                        Extranjero
+                    </option>
+                </select>
+            </div>
+        </xpath>
+    </t>
+</templates>

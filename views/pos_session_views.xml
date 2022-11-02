@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="view_pos_session_form_sii" model="ir.ui.view">
+            <field name="name">view.pos.session.form.sii</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_form" />
+            <field name="arch" type="xml">
+                <field name="start_at" position="after">
+                    <field name="caf_id"/>
+                    <field name="next_number" readonly="False"/>
+                    <field name="next_number_exempt" readonly="False"/>
+                    <field name="remaining_docs" readonly="False"/>
+                    <field name="percent_caf" readonly="False"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

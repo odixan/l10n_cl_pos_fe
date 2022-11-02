@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="pos_config_view_form_fe" model="ir.ui.view">
+            <field name="model">pos.config</field>
+            <field name="name">pos.config.sii.form</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='iface_invoicing']" position="inside">
+                    <div class="o_setting_left_pane">
+                        <field name="module_ticket" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="module_ticket" />
+                        <div class="text-muted" id="invoice_journal">
+                           Generar Boletas Electronicas
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
